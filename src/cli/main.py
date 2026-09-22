@@ -2,16 +2,15 @@
 Interfaz de línea de comandos (CLI) moderna con renderizado Rich.
 """
 
-import sys
 from typing import Optional
+
 from rich.console import Console
-from rich.panel import Panel
 from rich.markdown import Markdown
+from rich.panel import Panel
 from rich.prompt import Prompt
 from rich.table import Table
 
 from src.core.assistant import UniversalAssistant
-from src.core.config import settings
 
 console = Console()
 
@@ -21,7 +20,9 @@ def display_banner(assistant: UniversalAssistant) -> None:
     info_table = Table.grid(padding=(0, 2))
     info_table.add_row("[bold cyan]Organización:[/]", f"[white]{assistant.organization}[/]")
     info_table.add_row("[bold cyan]Motor LLM:[/]", f"[green]{assistant.llm.__class__.__name__}[/]")
-    info_table.add_row("[bold cyan]Almacén RAG:[/]", f"[yellow]{assistant.storage.__class__.__name__}[/]")
+    info_table.add_row(
+        "[bold cyan]Almacén RAG:[/]", f"[yellow]{assistant.storage.__class__.__name__}[/]"
+    )
     info_table.add_row("[bold cyan]Comandos:[/]", "[dim]'salir', 'help', 'info', 'docs'[/]")
 
     panel = Panel(
@@ -29,7 +30,7 @@ def display_banner(assistant: UniversalAssistant) -> None:
         title=f"🤖 [bold green]{assistant.name}[/]",
         subtitle="[dim]Universal RAG Engine v1.0.0[/dim]",
         border_style="bright_blue",
-        padding=(1, 2)
+        padding=(1, 2),
     )
     console.print(panel)
     console.print()
@@ -83,17 +84,21 @@ def run_interactive_cli(assistant: Optional[UniversalAssistant] = None) -> None:
 
             # Imprimir respuesta formateada
             console.print()
+            panel_title = (
+                f"🐾 [bold green]{bot.name}[/bold green] "
+                f"[dim]({response.processing_time_ms} ms | {response.sources_count} fuentes)[/dim]"
+            )
             res_panel = Panel(
                 Markdown(response.answer),
-                title=f"🐾 [bold green]{bot.name}[/bold green] [dim]({response.processing_time_ms} ms | {response.sources_count} fuentes)[/dim]",
+                title=panel_title,
                 border_style="green",
-                padding=(1, 2)
+                padding=(1, 2),
             )
             console.print(res_panel)
             console.print()
 
         except (KeyboardInterrupt, EOFError):
-            console.print(f"\n\n[green]Sesión finalizada.[/green] 👋\n")
+            console.print("\n\n[green]Sesión finalizada.[/green] 👋\n")
             break
         except Exception as e:
             console.print(f"[bold red]Error:[/] {e}")

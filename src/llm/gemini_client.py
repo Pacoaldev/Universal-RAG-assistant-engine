@@ -3,10 +3,12 @@ Adaptador para Google Gemini API.
 """
 
 from typing import Optional
+
 import google.generativeai as genai
-from src.llm.base import BaseLLMClient
+
 from src.core.config import settings
 from src.core.logger import get_logger
+from src.llm.base import BaseLLMClient
 
 logger = get_logger("llm.gemini")
 
@@ -20,7 +22,8 @@ class GeminiClient(BaseLLMClient):
 
         if not self.api_key:
             raise ValueError(
-                "GOOGLE_API_KEY no configurada. Configure la variable de entorno o use LLM_PROVIDER=mock para modo offline."
+                "GOOGLE_API_KEY no configurada. Configure la variable de entorno o "
+                "use LLM_PROVIDER=mock para modo offline."
             )
 
         genai.configure(api_key=self.api_key)

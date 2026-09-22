@@ -5,20 +5,23 @@ Desacoplado de frameworks específicos con inyección de dependencias completa.
 
 import json
 import time
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
+
 from pydantic import BaseModel, Field
-from src.storage.base import BaseKnowledgeStore
-from src.storage.factory import get_knowledge_store
-from src.llm.base import BaseLLMClient
-from src.llm.factory import get_llm_client
+
 from src.core.config import settings
 from src.core.logger import get_logger
+from src.llm.base import BaseLLMClient
+from src.llm.factory import get_llm_client
+from src.storage.base import BaseKnowledgeStore
+from src.storage.factory import get_knowledge_store
 
 logger = get_logger("core.assistant")
 
 
 class AssistantResponse(BaseModel):
     """Modelo estructurado de respuesta del asistente."""
+
     answer: str
     sources_count: int = 0
     sources: Dict[str, List[Dict[str, Any]]] = Field(default_factory=dict)
@@ -79,8 +82,7 @@ class UniversalAssistant:
         if not self.llm.validate_input(query):
             logger.warning(f"Consulta rechazada por validación: '{query}'")
             return AssistantResponse(
-                answer="Por favor, formula una pregunta clara y concisa.",
-                processing_time_ms=0.0
+                answer="Por favor, formula una pregunta clara y concisa.", processing_time_ms=0.0
             )
 
         logger.info(f"Procesando consulta: '{query}'")
@@ -111,5 +113,5 @@ class UniversalAssistant:
             sources_count=total_sources,
             sources=search_results,
             processing_time_ms=round(elapsed_ms, 2),
-            model_used=self.llm.__class__.__name__
+            model_used=self.llm.__class__.__name__,
         )

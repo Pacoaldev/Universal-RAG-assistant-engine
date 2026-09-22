@@ -4,8 +4,8 @@ Sistema de logging estructurado para el asistente RAG.
 
 import logging
 import logging.handlers
-from pathlib import Path
-from src.core.config import settings, PROJECT_ROOT
+
+from src.core.config import PROJECT_ROOT, settings
 
 _initialized = False
 
@@ -27,10 +27,7 @@ def setup_logging():
 
     # File Handler
     file_handler = logging.handlers.RotatingFileHandler(
-        log_file,
-        maxBytes=5 * 1024 * 1024,
-        backupCount=3,
-        encoding="utf-8"
+        log_file, maxBytes=5 * 1024 * 1024, backupCount=3, encoding="utf-8"
     )
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)

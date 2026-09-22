@@ -11,7 +11,7 @@ def test_default_settings():
         ASSISTANT_NAME="Test Bot",
         ORGANIZATION_NAME="Test Corp",
         STORAGE_TYPE="local",
-        LLM_PROVIDER="mock"
+        LLM_PROVIDER="mock",
     )
 
     assert custom_settings.ASSISTANT_NAME == "Test Bot"

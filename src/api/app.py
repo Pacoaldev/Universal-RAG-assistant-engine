@@ -2,13 +2,12 @@
 Servidor REST FastAPI para el asistente RAG universal.
 """
 
-from typing import Dict, Any, Optional
+import uvicorn
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-import uvicorn
 
-from src.core.assistant import UniversalAssistant, AssistantResponse
+from src.core.assistant import AssistantResponse, UniversalAssistant
 from src.core.config import settings
 from src.core.logger import get_logger
 
@@ -16,10 +15,13 @@ logger = get_logger("api.app")
 
 app = FastAPI(
     title="Universal RAG Assistant API",
-    description="API REST modular y de producción para consultas de asistencia virtual impulsadas por RAG.",
+    description=(
+        "API REST modular y de producción para consultas "
+        "de asistencia virtual impulsadas por RAG."
+    ),
     version="1.0.0",
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
 )
 
 # CORS
@@ -40,7 +42,9 @@ class ChatRequest(BaseModel):
         ...,
         min_length=1,
         max_length=2000,
-        json_schema_extra={"example": "¿Cuáles son los horarios de atención y qué servicios de vacunación ofrecen?"}
+        json_schema_extra={
+            "example": "¿Cuáles son los horarios de atención y qué servicios de vacunación ofrecen?"
+        },
     )
 
 
@@ -58,7 +62,7 @@ def root():
     return {
         "message": f"Bienvenido a la API de {settings.ASSISTANT_NAME}",
         "docs": "/docs",
-        "health": "/health"
+        "health": "/health",
     }
 
 
@@ -70,7 +74,7 @@ def health_check():
         assistant_name=assistant.name,
         organization=assistant.organization,
         storage_type=assistant.storage.__class__.__name__,
-        llm_provider=assistant.llm.__class__.__name__
+        llm_provider=assistant.llm.__class__.__name__,
     )
 
 
@@ -86,7 +90,7 @@ def chat_endpoint(request: ChatRequest):
         logger.error(f"Error procesando endpoint /api/chat: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error interno al procesar la consulta: {str(e)}"
+            detail=f"Error interno al procesar la consulta: {str(e)}",
         )
 
 
@@ -94,24 +98,17 @@ def chat_endpoint(request: ChatRequest):
 def get_knowledge_summary():
     """Obtiene un resumen de la base de conocimientos activa."""
     all_data = assistant.storage.get_all()
-    summary = {
-        category: len(items) for category, items in all_data.items()
-    }
+    summary = {category: len(items) for category, items in all_data.items()}
     return {
         "total_categories": len(summary),
         "documents_by_category": summary,
-        "storage_backend": assistant.storage.__class__.__name__
+        "storage_backend": assistant.storage.__class__.__name__,
     }
 
 
 def start():
     """Punto de entrada para ejecutar el servidor uvicorn."""
-    uvicorn.run(
-        "src.api.app:app",
-        host=settings.API_HOST,
-        port=settings.API_PORT,
-        reload=False
-    )
+    uvicorn.run("src.api.app:app", host=settings.API_HOST, port=settings.API_PORT, reload=False)
 
 
 if __name__ == "__main__":

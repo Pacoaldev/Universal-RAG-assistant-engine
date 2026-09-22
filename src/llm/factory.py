@@ -3,10 +3,11 @@ Factoría para instanciar clientes LLM según configuración.
 """
 
 from typing import Optional
+
 from src.core.config import settings
+from src.core.logger import get_logger
 from src.llm.base import BaseLLMClient
 from src.llm.mock_client import MockLLMClient
-from src.core.logger import get_logger
 
 logger = get_logger("llm.factory")
 
@@ -14,7 +15,7 @@ logger = get_logger("llm.factory")
 def get_llm_client(provider: Optional[str] = None) -> BaseLLMClient:
     """
     Retorna el cliente LLM configurado.
-    
+
     Args:
         provider: 'gemini' o 'mock'. Si es None, usa settings.LLM_PROVIDER.
     """
@@ -23,6 +24,7 @@ def get_llm_client(provider: Optional[str] = None) -> BaseLLMClient:
     if prov == "gemini":
         try:
             from src.llm.gemini_client import GeminiClient
+
             return GeminiClient()
         except Exception as e:
             logger.warning(

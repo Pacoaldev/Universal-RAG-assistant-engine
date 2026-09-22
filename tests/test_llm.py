@@ -3,7 +3,6 @@ Pruebas para los clientes LLM.
 """
 
 from src.llm.mock_client import MockLLMClient
-from src.llm.base import BaseLLMClient
 
 
 def test_mock_llm_client():

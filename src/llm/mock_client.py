@@ -3,8 +3,8 @@ Cliente LLM simulado (Mock) para entornos de CI/CD, desarrollo offline y tests u
 Permite ejecutar el sistema sin necesidad de una API Key real ni consumo de cuota.
 """
 
-from src.llm.base import BaseLLMClient
 from src.core.logger import get_logger
+from src.llm.base import BaseLLMClient
 
 logger = get_logger("llm.mock")
 
@@ -23,7 +23,8 @@ class MockLLMClient(BaseLLMClient):
         if "vacun" in prompt_lower:
             return (
                 f"{self.prefix} Ofrecemos planes completos de vacunación para perros y gatos "
-                "incluyendo rabia, polivalente y leucemia felina. Consulta nuestros horarios de atención."
+                "incluyendo rabia, polivalente y leucemia felina. "
+                "Consulta nuestros horarios de atención."
             )
         elif "horario" in prompt_lower or "hora" in prompt_lower:
             return (
@@ -40,8 +41,10 @@ class MockLLMClient(BaseLLMClient):
                 f"{self.prefix} Los precios varían según el servicio específico. "
                 "Consulta nuestra lista de tarifas o visítanos para una valoración personalizada."
             )
-        
+
+        last_line = prompt.strip().splitlines()[-1][:50]
         return (
-            f"{self.prefix} He recibido tu consulta sobre '{prompt.strip().splitlines()[-1][:60]}...'. "
-            "Para más detalles, consulta nuestra base de conocimientos o comunícate con nuestro equipo."
+            f"{self.prefix} He recibido tu consulta sobre '{last_line}...'. "
+            "Para más detalles, consulta nuestra base de conocimientos "
+            "o comunícate con nuestro equipo."
         )

@@ -12,10 +12,10 @@ class BaseLLMClient(ABC):
     def generate_response(self, prompt: str) -> str:
         """
         Genera una respuesta basada en el prompt recibido.
-        
+
         Args:
             prompt: Texto completo de entrada con contexto.
-            
+
         Returns:
             Texto de respuesta generado por el modelo.
         """
@@ -24,7 +24,7 @@ class BaseLLMClient(ABC):
     def validate_input(self, text: str, max_length: int = 2000) -> bool:
         """
         Valida que el input no esté vacío y no sobrepase el límite razonable.
-        
+
         Args:
             text: Texto de entrada.
             max_length: Longitud máxima permitida.

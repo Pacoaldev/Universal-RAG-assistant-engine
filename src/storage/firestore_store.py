@@ -5,9 +5,10 @@ Implementa inicialización bajo demanda (lazy-init) para evitar fallos de import
 
 import json
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-from src.storage.base import BaseKnowledgeStore
+from typing import Any, Dict, List, Optional
+
 from src.core.logger import get_logger
+from src.storage.base import BaseKnowledgeStore
 
 logger = get_logger("storage.firestore")
 
@@ -15,11 +16,13 @@ logger = get_logger("storage.firestore")
 class FirestoreKnowledgeStore(BaseKnowledgeStore):
     """Adaptador para Google Cloud Firestore."""
 
-    def __init__(self, credentials_path: Optional[Path] = None, collections: Optional[Dict[str, str]] = None):
+    def __init__(
+        self, credentials_path: Optional[Path] = None, collections: Optional[Dict[str, str]] = None
+    ):
         self.credentials_path = credentials_path
         self.collections = collections or {
             "general_info": "informacion_general_clinica",
-            "services": "servicios_veterinaria"
+            "services": "servicios_veterinaria",
         }
         self._db = None
 

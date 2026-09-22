@@ -3,7 +3,7 @@ Interfaz abstracta para almacenes de conocimiento.
 """
 
 from abc import ABC, abstractmethod
-from typing import Dict, List, Any
+from typing import Any, Dict, List
 
 
 class BaseKnowledgeStore(ABC):
@@ -13,11 +13,11 @@ class BaseKnowledgeStore(ABC):
     def search(self, query: str, limit: int = 5) -> Dict[str, List[Dict[str, Any]]]:
         """
         Busca documentos relevantes para la consulta dada.
-        
+
         Args:
             query: Texto de consulta del usuario.
             limit: Límite máximo de resultados por categoría.
-            
+
         Returns:
             Diccionario agrupado por categorías de documentos coincidentes.
         """

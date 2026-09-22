@@ -3,6 +3,7 @@ Pruebas para los endpoints de la API FastAPI.
 """
 
 from fastapi.testclient import TestClient
+
 from src.api.app import app
 
 client = TestClient(app)

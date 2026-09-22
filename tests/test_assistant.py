@@ -2,21 +2,18 @@
 Pruebas para el motor RAG UniversalAssistant.
 """
 
-from pathlib import Path
 import json
+from pathlib import Path
+
 from src.core.assistant import UniversalAssistant
-from src.storage.local_json import LocalJSONKnowledgeStore
 from src.llm.mock_client import MockLLMClient
+from src.storage.local_json import LocalJSONKnowledgeStore
 
 
 def test_universal_assistant_flow(tmp_path: Path):
     """Verifica el flujo RAG completo con almacenamiento e IA inyectados."""
     test_file = tmp_path / "clinic_kb.json"
-    data = {
-        "services": [
-            {"id": "s_dental", "nombre": "Limpieza Dental", "precio": "50€"}
-        ]
-    }
+    data = {"services": [{"id": "s_dental", "nombre": "Limpieza Dental", "precio": "50€"}]}
     with open(test_file, "w", encoding="utf-8") as f:
         json.dump(data, f)
 
@@ -24,10 +21,7 @@ def test_universal_assistant_flow(tmp_path: Path):
     llm = MockLLMClient(prefix="[Bot]")
 
     assistant = UniversalAssistant(
-        name="TestBot",
-        organization="VetClinica",
-        storage=storage,
-        llm_client=llm
+        name="TestBot", organization="VetClinica", storage=storage, llm_client=llm
     )
 
     # Consulta válida con recuperación

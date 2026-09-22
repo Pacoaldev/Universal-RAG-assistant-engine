@@ -6,9 +6,10 @@ Permite ejecutar el proyecto sin depender de Firestore ni de una cuenta de Googl
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-from src.storage.base import BaseKnowledgeStore
+from typing import Any, Dict, List
+
 from src.core.logger import get_logger
+from src.storage.base import BaseKnowledgeStore
 
 logger = get_logger("storage.local_json")
 
@@ -31,7 +32,8 @@ class LocalJSONKnowledgeStore(BaseKnowledgeStore):
         try:
             with open(self.file_path, "r", encoding="utf-8") as f:
                 self._data = json.load(f)
-            logger.info(f"Base de conocimientos cargada ({sum(len(v) for v in self._data.values())} documentos)")
+            doc_count = sum(len(v) for v in self._data.values())
+            logger.info(f"Base de conocimientos cargada ({doc_count} documentos)")
         except Exception as e:
             logger.error(f"Error al leer {self.file_path}: {e}")
             self._data = {}
@@ -40,7 +42,7 @@ class LocalJSONKnowledgeStore(BaseKnowledgeStore):
         """Calcula una puntuación de coincidencia léxica para un documento."""
         doc_str = json.dumps(doc, ensure_ascii=False).lower()
         score = 0.0
-        
+
         for token in query_tokens:
             if not token:
                 continue
