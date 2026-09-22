@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  assistant-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: universal-rag-assistant-engine
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - LLM_PROVIDER=gemini
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - GEMINI_MODEL=gemini-1.5-flash
+      - STORAGE_TYPE=local
+      - KNOWLEDGE_BASE_PATH=/app/maskotas_knowledge_base.json
+      - ASSISTANT_NAME=Maskotas Bot
+      - ORGANIZATION_NAME=Clínica Veterinaria Maskotas
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\" || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

@@ -1,0 +1,71 @@
+{
+  "servicios_veterinaria": [
+    {
+      "id": "SERV001",
+      "nombre": "Consulta General",
+      "categoria": "Salud Animal",
+      "descripcion": "Examen físico completo, diagnóstico de enfermedades comunes, vacunación y desparasitación para perros y gatos.",
+      "precio": "35€",
+      "faqs": [
+        {"pregunta": "¿Qué incluye la consulta general?", "respuesta": "Incluye revisión de peso, temperatura, auscultación y palpación, así como recomendación de calendario de vacunas y desparasitación."},
+        {"pregunta": "¿Necesito cita previa?", "respuesta": "Sí, es recomendable pedir cita previa para asegurar la disponibilidad."},
+        {"pregunta": "¿Atendéis otras mascotas?", "respuesta": "Principalmente perros y gatos, pero consulta para otras especies."}
+      ]
+    },
+    {
+      "id": "SERV002",
+      "nombre": "Vacunación Canina",
+      "categoria": "Prevención",
+      "descripcion": "Administración de vacunas esenciales para perros: Parvovirus, Moquillo, Hepatitis, Leptospirosis y Rabia. Incluye carnet de vacunación.",
+      "precio": "45€ por vacuna",
+      "faqs": [
+        {"pregunta": "¿Qué vacunas son obligatorias?", "respuesta": "La vacuna antirrábica es obligatoria en la mayoría de las comunidades. Consulta con nuestros veterinarios para más información."},
+        {"pregunta": "¿Cada cuánto se vacuna un perro?", "respuesta": "Depende de la vacuna y la edad del perro. Generalmente se sigue un calendario específico desde cachorro y refuerzos anuales."}
+      ]
+    },
+    {
+      "id": "SERV003",
+      "nombre": "Peluquería Canina y Felina",
+      "categoria": "Estética y Bienestar",
+      "descripcion": "Servicio de baño, corte de pelo (según raza), limpieza de oídos y corte de uñas para perros y gatos. Productos específicos para cada tipo de pelo.",
+      "precio": "Desde 30€ (depende del tamaño y tipo de pelo)",
+      "faqs": [
+        {"pregunta": "¿Qué razas atendéis?", "respuesta": "Atendemos todas las razas. El precio puede variar según el tamaño y la complejidad del corte."},
+        {"pregunta": "¿Usáis productos hipoalergénicos?", "respuesta": "Sí, disponemos de una gama de productos hipoalergénicos y específicos para pieles sensibles."}
+      ]
+    },
+    {
+      "id": "SERV004",
+      "nombre": "Cirugía Menor",
+      "categoria": "Cirugía",
+      "descripcion": "Procedimientos quirúrgicos menores como esterilizaciones, castraciones, extracción de tumores pequeños o suturas de heridas. Requiere valoración previa.",
+      "precio": "Variable según procedimiento",
+      "faqs": [
+        {"pregunta": "¿Qué preparacion necesita mi mascota para una cirugía?", "respuesta": "Ayuno de 8-12 horas y, en algunos casos, análisis preoperatorios. Te daremos instrucciones detalladas al programar la cirugía."},
+        {"pregunta": "¿Ofrecéis seguimiento postoperatorio?", "respuesta": "Sí, el precio incluye revisiones postoperatorias y retirada de puntos."}
+      ]
+    }
+  ],
+  "informacion_general_clinica": [
+    {
+      "tema": "horario",
+      "pregunta": "¿Cuál es el horario de la clínica?",
+      "respuesta": "Nuestra clínica 'Maskotas' está abierta de Lunes a Viernes de 9:00 a 14:00 y de 16:00 a 20:00, y Sábados de 10:00 a 14:00."
+    },
+    {
+      "tema": "contacto",
+      "pregunta": "¿Cómo puedo contactar con la clínica Maskotas?",
+      "respuesta": "Puedes llamarnos al 999 999 999, enviar un email a info@maskotas.com o visitarnos en nuestra dirección: Calle Ficticia, 123, Madrid."
+    },
+	{
+      "tema": "dirección",
+      "pregunta": "¿Cual es vuestra dirección?",
+      "respuesta": "Puedes visitarnos en nuestra dirección: Calle Ficticia, 123, Manises."
+    },
+    {
+      "tema": "urgencias",
+      "pregunta": "¿Tenéis servicio de urgencias?",
+      "respuesta": "Ofrecemos servicio de urgencias 24h. Llama al 600 600 600 para emergencias fuera del horario de la clínica."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+# Credenciales y secretos
+*.json.key
+service_account*.json
+chatbot-maskotas*.json
+*.key
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Entornos virtuales
+venv/
+env/
+ENV/
+.venv/
+
+# Testing y Linters
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+.mypy_cache/
+odd/
+
+# Logs y Datos
+logs/
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
