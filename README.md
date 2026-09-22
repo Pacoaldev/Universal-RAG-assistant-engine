@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Universal RAG Assistant Engine" width="300" />
+</p>
+
 # 🤖 Universal RAG Assistant Engine
 
 [![CI Pipeline](https://github.com/Pacoaldev/Universal-RAG-assistant-engine/actions/workflows/ci.yml/badge.svg)](https://github.com/Pacoaldev/Universal-RAG-assistant-engine/actions)
