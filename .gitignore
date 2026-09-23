@@ -52,3 +52,6 @@ logs/
 Thumbs.db
 .idea/
 .vscode/
+# Local Pi runtime state
+.atl/
+.pi/

@@ -57,10 +57,10 @@
       "pregunta": "¿Cómo puedo contactar con la clínica Maskotas?",
       "respuesta": "Puedes llamarnos al 999 999 999, enviar un email a info@maskotas.com o visitarnos en nuestra dirección: Calle Ficticia, 123, Madrid."
     },
-	{
+    {
       "tema": "dirección",
-      "pregunta": "¿Cual es vuestra dirección?",
-      "respuesta": "Puedes visitarnos en nuestra dirección: Calle Ficticia, 123, Manises."
+      "pregunta": "¿Cuál es vuestra dirección?",
+      "respuesta": "Puedes visitarnos en nuestra dirección: Calle Ficticia, 123, Madrid."
     },
     {
       "tema": "urgencias",

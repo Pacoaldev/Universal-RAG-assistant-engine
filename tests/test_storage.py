@@ -56,3 +56,18 @@ def test_local_json_save_data(tmp_path: Path):
     success = store.save_data(new_data)
     assert success is True
     assert store.get_all() == new_data
+
+
+def test_firestore_store_scoring():
+    """Verifica el cálculo de scoring léxico en FirestoreKnowledgeStore."""
+    from src.storage.firestore_store import FirestoreKnowledgeStore
+
+    store = FirestoreKnowledgeStore()
+    doc = {"nombre": "Vacunación Canina", "descripcion": "Protección contra rabia"}
+
+    score_match = store._score_document(doc, ["vacunacion", "rabia"])
+    score_no_match = store._score_document(doc, ["cirugia", "dental"])
+
+    assert score_match > 0
+    assert score_no_match == 0
+

@@ -4,6 +4,7 @@ Implementa inicialización bajo demanda (lazy-init) para evitar fallos de import
 """
 
 import json
+import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -50,25 +51,48 @@ class FirestoreKnowledgeStore(BaseKnowledgeStore):
             logger.error(f"Error al inicializar Firestore: {e}")
             raise RuntimeError(f"No se pudo conectar con Firestore: {e}")
 
+    def _score_document(self, doc: Dict[str, Any], query_tokens: List[str]) -> float:
+        """Calcula una puntuación de coincidencia léxica para un documento."""
+        doc_str = json.dumps(doc, ensure_ascii=False).lower()
+        score = 0.0
+
+        for token in query_tokens:
+            if not token:
+                continue
+            count = len(re.findall(r"\b" + re.escape(token) + r"\b", doc_str))
+            if count > 0:
+                score += count * 2.0
+            elif token in doc_str:
+                score += 1.0
+
+        return score
+
     def search(self, query: str, limit: int = 5) -> Dict[str, List[Dict[str, Any]]]:
-        """Busca documentos en Firestore."""
+        """Busca documentos en Firestore ordenados por relevancia léxica."""
+        if not query or not query.strip():
+            return {}
+
+        query_clean = query.lower().strip()
+        tokens = [t for t in re.findall(r"\w+", query_clean) if len(t) > 2]
+        if not tokens:
+            tokens = [query_clean]
+
         db = self._get_client()
-        query_lower = query.lower()
         results = {}
 
         for key, collection_name in self.collections.items():
-            matches = []
+            scored_items = []
             try:
                 docs = db.collection(collection_name).stream()
                 for doc in docs:
                     data = doc.to_dict()
-                    doc_str = json.dumps(data, ensure_ascii=False).lower()
-                    if query_lower in doc_str:
-                        matches.append(data)
-                        if len(matches) >= limit:
-                            break
-                if matches:
-                    results[key] = matches
+                    score = self._score_document(data, tokens)
+                    if score > 0:
+                        scored_items.append((score, data))
+
+                scored_items.sort(key=lambda x: x[0], reverse=True)
+                if scored_items:
+                    results[key] = [item for _, item in scored_items[:limit]]
             except Exception as e:
                 logger.error(f"Error al consultar la colección {collection_name}: {e}")
 

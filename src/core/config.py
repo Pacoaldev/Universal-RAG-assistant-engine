@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     LLM_PROVIDER: str = Field(default="gemini", description="Proveedor LLM: gemini | mock")
     GOOGLE_API_KEY: Optional[str] = Field(default=None, description="API Key de Google Gemini")
     GEMINI_MODEL: str = Field(
-        default="models/gemini-1.5-flash", description="Modelo de Gemini a utilizar"
+        default="gemini-1.5-flash", description="Modelo de Gemini a utilizar"
     )
 
     # Almacenamiento RAG
