@@ -2,8 +2,10 @@
 Servidor REST FastAPI para el asistente RAG universal.
 """
 
+from contextlib import asynccontextmanager
+
 import uvicorn
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -12,6 +14,37 @@ from src.core.config import settings
 from src.core.logger import get_logger
 
 logger = get_logger("api.app")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Inicializa UniversalAssistant en startup; limpia en shutdown.
+
+    El try/except garantiza que /health responda 200 incluso ante un fallo
+    catastrófico de construcción. La rama except reusa las mismas factories
+    forzando mock+local — no introduce un segundo fallback path.
+    """
+    try:
+        app.state.assistant = UniversalAssistant()
+        logger.info("UniversalAssistant listo.")
+    except Exception:
+        logger.exception(
+            "Fallo crítico construyendo UniversalAssistant; arrancando en modo degradado."
+        )
+        from src.llm.factory import get_llm_client
+        from src.storage.factory import get_knowledge_store
+
+        app.state.assistant = UniversalAssistant(
+            name=settings.ASSISTANT_NAME,
+            organization=settings.ORGANIZATION_NAME,
+            llm_client=get_llm_client("mock"),
+            storage=get_knowledge_store("local"),
+        )
+    try:
+        yield
+    finally:
+        app.state.assistant = None
+
 
 app = FastAPI(
     title="Universal RAG Assistant API",
@@ -22,7 +55,12 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
+
+# Estado inicial: el assistant se materializa dentro de lifespan.startup().
+# Garantiza que app.state.assistant sea accesible desde el primer import.
+app.state.assistant = None
 
 # CORS
 app.add_middleware(
@@ -32,9 +70,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Instancia del asistente
-assistant = UniversalAssistant()
 
 
 class ChatRequest(BaseModel):
@@ -67,8 +102,9 @@ def root():
 
 
 @app.get("/health", response_model=HealthResponse, tags=["Health"])
-def health_check():
+def health_check(request: Request):
     """Estado de salud y configuración del sistema."""
+    assistant = request.app.state.assistant
     return HealthResponse(
         status="healthy",
         assistant_name=assistant.name,
@@ -79,13 +115,13 @@ def health_check():
 
 
 @app.post("/api/chat", response_model=AssistantResponse, tags=["Chat"])
-def chat_endpoint(request: ChatRequest):
+def chat_endpoint(request: Request, body: ChatRequest):
     """
     Envía una consulta al asistente RAG y obtiene una respuesta contextualizada.
     """
+    assistant = request.app.state.assistant
     try:
-        response = assistant.ask(request.query)
-        return response
+        return assistant.ask(body.query)
     except Exception as e:
         logger.error(f"Error procesando endpoint /api/chat: {e}")
         raise HTTPException(
@@ -95,8 +131,9 @@ def chat_endpoint(request: ChatRequest):
 
 
 @app.get("/api/knowledge", tags=["Knowledge"])
-def get_knowledge_summary():
+def get_knowledge_summary(request: Request):
     """Obtiene un resumen de la base de conocimientos activa."""
+    assistant = request.app.state.assistant
     all_data = assistant.storage.get_all()
     summary = {category: len(items) for category, items in all_data.items()}
     return {
