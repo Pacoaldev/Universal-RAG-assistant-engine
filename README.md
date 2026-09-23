@@ -207,12 +207,15 @@ ruff check .
 
 ## 📄 Licencia
 
-Distribuido bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+[MIT](LICENSE.md) — Copyright (c) 2026 Pacoaldev
 
 ---
 
 ## 👤 Autor
 
 **Paco López Alarte**
-- **GitHub**: [@Pacoaldev](https://github.com/Pacoaldev)
-- **Email**: [pacoaldev@gmail.com](mailto:pacoaldev@gmail.com)
+- **GitHub**: [@Pacoaldev](https://github.com/Pacoaldev) | **Email**: [pacoaldev@gmail.com](mailto:pacoaldev@gmail.com)
+
+<a href="https://github.com/Gentleman-Programming/gentle-ai">
+  <img width="220" src="https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/docs/assets/brand/built-with-gentle-ai.png" alt="Built with Gentle-AI" />
+</a>
