@@ -23,12 +23,15 @@ async def test_health_responds_200_without_google_api_key(client):
 
 async def test_chat_returns_deterministic_answer_in_mock_mode(client):
     """SPEC §mock-fallback: determinista, sin GOOGLE_API_KEY, prefijo + keyword."""
+    from src.llm.factory import get_llm_client
+
+    prefix = get_llm_client().prefix
     response = await client.post(
         "/api/chat", json={"query": "¿Cuáles son los horarios de atención?"}
     )
     assert response.status_code == 200
     data = response.json()
-    assert data["answer"].startswith("[Fallback Mode]")
+    assert data["answer"].startswith(prefix)
     assert "horario" in data["answer"].lower()
 
 

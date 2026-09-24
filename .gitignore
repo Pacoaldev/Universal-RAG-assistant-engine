@@ -55,3 +55,7 @@ Thumbs.db
 # Local Pi runtime state
 .atl/
 .pi/
+*.code-workspace
+
+# OpenSpec / SDD (artefactos locales de agentes; no necesarios para ejecutar el motor)
+openspec/
