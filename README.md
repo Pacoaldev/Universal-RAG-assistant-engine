@@ -9,6 +9,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110%2B-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-1.5_Flash-4285F4.svg?logo=google)](https://ai.google.dev/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker)](https://www.docker.com/)
+[![Gentle AI](https://img.shields.io/github/v/release/Gentleman-Programming/gentle-ai?label=Gentle-AI&logo=github&color=8A2BE2)](https://github.com/Gentleman-Programming/gentle-ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Motor de asistencia conversacional con arquitectura **RAG (Retrieval-Augmented Generation)** desacoplada, modular y lista para producción. Diseñado para adaptarse a **cualquier dominio o empresa** mediante configuración declarativa, con soporte de almacenamiento dual (Local JSON / Google Cloud Firestore) y doble interfaz de interacción (FastAPI REST y CLI enriquecido con Rich).
